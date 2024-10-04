@@ -19,17 +19,24 @@ const SNSApp: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState<string>('');
   const [token, setToken] = useState<string | null>(null);
+  const [isRegistered, setIsRegistered] = useState<boolean>(false); // ユーザー登録済みかどうかの状態
+
+  // ユーザー登録成功時に呼び出す関数
+  const handleRegisterSuccess = () => {
+    setIsRegistered(true); // 登録が成功したら、isRegisteredをtrueに設定
+  };
 
   // Handle user registration
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/api/auth/register', {
-        username,
-        password,
+      const response = await axios.post('http://localhost:8000/register/', {
+        username: username, // usernameを明示的に指定
+        password: password, // passwordを明示的に指定
       });
       console.log('Registration successful:', response.data);
       setError('');
+      handleRegisterSuccess(); // 登録成功時の処理を呼び出す
     } catch (err) {
       console.error('Error during registration:', err);
       setError('Registration failed. Please try again.');
@@ -40,7 +47,7 @@ const SNSApp: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/api/auth/login', {
+      const response = await axios.post('http://localhost:8000/login', {
         username,
         password,
       });
@@ -64,7 +71,7 @@ const SNSApp: React.FC = () => {
     }
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/posts',
+        'http://localhost:8000/posts',
         {
           title,
           content,
@@ -87,7 +94,7 @@ const SNSApp: React.FC = () => {
   // Fetch posts for the timeline
   const fetchPosts = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/posts');
+      const response = await axios.get('http://localhost:8000/posts');
       setPosts(response.data);
       setError('');
     } catch (err) {
@@ -105,33 +112,35 @@ const SNSApp: React.FC = () => {
       <h1>Social Media App</h1>
 
       {/* User Registration */}
-      <div>
-        <h2>Sign Up</h2>
-        <form onSubmit={handleRegister}>
-          <div>
-            <label>Username:</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Password:</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit">Sign Up</button>
-        </form>
-      </div>
+      {!token && (
+        <div>
+          <h2>Sign Up</h2>
+          <form onSubmit={handleRegister}>
+            <div>
+              <label>Username:</label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label>Password:</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit">Sign Up</button>
+          </form>
+        </div>
+      )}
 
       {/* User Login */}
-      {!token && (
+      {!token && isRegistered && ( // ユーザーがログインしておらず、登録済みの場合のみ表示
         <div>
           <h2>Login</h2>
           <form onSubmit={handleLogin}>

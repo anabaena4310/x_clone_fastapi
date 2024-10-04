@@ -4,8 +4,18 @@ from typing import List
 from datetime import datetime
 from fastapi.security import OAuth2PasswordBearer
 import uvicorn
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# CORSの設定
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 許可するオリジンを指定（例: ["http://localhost:3000"]）
+    allow_credentials=True,
+    allow_methods=["*"],  # 許可するHTTPメソッドを指定
+    allow_headers=["*"],  # 許可するヘッダーを指定
+)
 
 # OAuth2 setup (for user authentication)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
