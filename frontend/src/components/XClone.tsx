@@ -91,6 +91,11 @@ const SNSApp: React.FC = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setToken(null);
+  };
+
   // Fetch posts for the timeline
   const fetchPosts = async () => {
     try {
@@ -212,6 +217,9 @@ const SNSApp: React.FC = () => {
           ))}
         </ul>
       </div>
+      {token && (
+        <button onClick={handleLogout}>Logout</button>
+      )}
     </div>
   );
 };

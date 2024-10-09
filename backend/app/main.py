@@ -83,7 +83,10 @@ async def login_user(user: dict, db: Session = Depends(get_db)):
     if db_user is None or db_user.password != password:
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
-    return {"message": "Login successful"}
+    return {
+        "message": "Login successful",
+        "user_id": db_user.id  # 登録済みのユーザーIDを含める
+    }
 
 # 投稿作成エンドポイント
 @app.post("/posts/")
