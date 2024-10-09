@@ -104,6 +104,10 @@ const SNSApp: React.FC = () => {
   };
 
   useEffect(() => {
+    const savedToken = localStorage.getItem('token');
+    if (savedToken) {
+      setToken(savedToken);
+    }
     fetchPosts(); // Load posts when the component is mounted
   }, []);
 
@@ -140,7 +144,7 @@ const SNSApp: React.FC = () => {
       )}
 
       {/* User Login */}
-      {!token && isRegistered && ( // ユーザーがログインしておらず、登録済みの場合のみ表示
+      {!token && ( // ユーザーがログインしていない場合のみ表示
         <div>
           <h2>Login</h2>
           <form onSubmit={handleLogin}>
@@ -168,7 +172,7 @@ const SNSApp: React.FC = () => {
       )}
 
       {/* Create Post */}
-      {token && (
+      {(
         <div>
           <h2>Create Post</h2>
           <form onSubmit={handleCreatePost}>
