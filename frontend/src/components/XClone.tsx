@@ -70,11 +70,14 @@ const SNSApp: React.FC = () => {
       return;
     }
     try {
+      const userId = 1
+
       const response = await axios.post(
         'http://localhost:8000/posts',
         {
           title,
           content,
+          user_id: userId, // user_idをセット
         },
         {
           headers: {
@@ -212,7 +215,7 @@ const SNSApp: React.FC = () => {
             <li key={post.id}>
               <h3>{post.title}</h3>
               <p>{post.content}</p>
-              <p>Posted by: {post.author.username}</p>
+              <p>Posted by: {post.id}</p>
             </li>
           ))}
         </ul>
