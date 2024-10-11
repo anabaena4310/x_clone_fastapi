@@ -1,6 +1,6 @@
 ﻿```markdown
+![ChatBot-Google-Chrome-2024-10-11-11-11-28](https://github.com/user-attachments/assets/7a152e46-bc6f-4b7c-a017-10d7cd6ec4db)
 
-https://github.com/user-attachments/assets/344a42fb-cd41-4953-a97c-d6fd3b45e881
 
 # FastAPI SNS Timeline Clone
 
