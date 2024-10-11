@@ -18,12 +18,7 @@ const SNSApp: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState<string>('');
   const [token, setToken] = useState<string | null>(null);
-  const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [showLoginForm, setShowLoginForm] = useState<boolean>(false);
-
-  const handleRegisterSuccess = () => {
-    setIsRegistered(true);
-  };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +29,6 @@ const SNSApp: React.FC = () => {
       });
       console.log('Registration successful:', response.data);
       setError('');
-      handleRegisterSuccess();
     } catch (err) {
       console.error('Error during registration:', err);
       setError('Registration failed. Please try again.');
